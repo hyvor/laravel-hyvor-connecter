@@ -27,11 +27,20 @@ class User {
         $this->username = $user['username'];
         $this->name = $user['name'];
         $this->email = $user['email'];
-        $this->picture = $user['picture'];
-        $this->location = $user['location'];
-        $this->bio = $user['bio'];
-        $this->url = $user['url'];
+        $this->picture = $user['picture'] ?? null;
+        $this->location = $user['location'] ?? null;
+        $this->bio = $user['bio'] ?? null;
+        $this->url = $user['url'] ?? null;
 
+    }
+
+    public static function dummy() {
+        return new self([
+            'id' => 1,
+            'username' => 'test',
+            'name' => 'Test',
+            'email' => 'test@hyvor.com',
+        ]);
     }
 
 
