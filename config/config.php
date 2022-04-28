@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\App;
+
 return [
 
     /**
@@ -13,12 +15,17 @@ return [
      * URL of hyvor
      * This should be the internal URL for production environments
      */
-    'api_base_url' => env('HYVOR_API_URL'),
+    'url' => env('HYVOR_URL'),
 
 
     /**
      * Hyvor API Key
      */
     'api_key' => env('HYVOR_API_KEY'),
+
+    /**
+     * Whether to return dummy results
+     */
+    'dummy' => App::environment('production') ? false : env('HYVOR_DUMMY', true)
 
 ];

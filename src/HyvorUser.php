@@ -1,11 +1,13 @@
 <?php
 namespace Hyvor\HyvorConnecter;
 
+use Faker\Factory;
+
 /**
  * Properties are same as hyvor's UserObject.php
  */
 
-class User {
+class HyvorUser {
 
     public int $id;
     public string $username;
@@ -21,12 +23,15 @@ class User {
      * 
      * @param $user = object from API response
      */
-    public function __construct(array $user) {
+    public function __construct(array $user, bool $email = false)
+    {
 
         $this->id = $user['id'];
         $this->username = $user['username'];
         $this->name = $user['name'];
-        $this->email = $user['email'];
+        if ($email) {
+            $this->email = $user['email'];
+        }
         $this->picture = $user['picture'] ?? null;
         $this->location = $user['location'] ?? null;
         $this->bio = $user['bio'] ?? null;
@@ -34,13 +39,17 @@ class User {
 
     }
 
-    public static function dummy() {
-        return new self([
+    public static function dummy($fill = [])
+    {
+
+        $faker = Factory::create();
+        return new self(array_merge([
             'id' => 1,
-            'username' => 'test',
-            'name' => 'Test',
-            'email' => 'test@hyvor.com',
-        ]);
+            'username' => $faker->username(),
+            'name' => $faker->name(),
+            'email' => $faker->email(),
+            'picture' => $faker->imageUrl(100, 100)
+        ], $fill));
     }
 
 

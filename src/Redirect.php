@@ -1,28 +1,39 @@
 <?php
 namespace Hyvor\HyvorConnecter;
 
+use JetBrains\PhpStorm\NoReturn;
+
 class Redirect {
 
-    public static function to($page = 'login', $redirectPage = null) {
+    public static function to($page = 'login', $redirectPage = null)
+    {
 
         $pos = strpos($page, '?');
         $placeholder = $pos === false ? '?' : '&';
-        
-        $redirect = '';
 
         if ($redirectPage === null) {
-            $redirectPage = $_SERVER['REQUEST_URI'];
+            $redirectPage = request()->getPathInfo();
         }
     
         $redirect = $placeholder . 'redirect=' . 
-            urlencode('https://' .  $_SERVER['HTTP_HOST'] . $redirectPage);
+            urlencode('https://' .  request()->getHost() . $redirectPage);
 
-        redirect( 
-            config('hyvor.auth_url') . 
+        return redirect(
+            config('hyvorconnecter.url') .
             '/' . 
             $page .
             $redirect
         );
 	}
+
+    public static function toLogin($redirectPage = null)
+    {
+        return self::to('login', $redirectPage);
+    }
+
+    public static function toSignup($redirectPage = null)
+    {
+        return self::to('signup', $redirectPage);
+    }
 
 }

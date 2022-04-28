@@ -1,33 +1,33 @@
 <?php
 namespace Hyvor\HyvorConnecter;
 
-use Illuminate\Support\Facades\App;
-
-class Login {
+class Login
+{
 
     const AUTH_COOKIE_NAME = 'authsess';
 
-    public static function check() : User|false {
+    public static function check() : ?HyvorUser
+    {
 
-        if (App::environment('local')) {
-            return User::dummy();
+        if (config('hyvorconnecter.dummy')) {
+            return HyvorUser::dummy();
         }
 
         $cookie = $_COOKIE[self::AUTH_COOKIE_NAME] ?? null;
 
         if (!$cookie) {
-            return false;
+            return null;
         }
 
         $response = ApiCaller::callEndpoint('/check', [], [
-            'Cookie' => "authsess:$cookie"
+            'Cookie' => self::AUTH_COOKIE_NAME . ":$cookie"
         ]);
 
         if ($response->successful()) {
-            return new User($response->json());
+            return new HyvorUser($response->json());
         }
 
-        return false;
+        return null;
 
     }
 
