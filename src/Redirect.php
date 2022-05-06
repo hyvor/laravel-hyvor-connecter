@@ -1,8 +1,6 @@
 <?php
 namespace Hyvor\HyvorConnecter;
 
-use JetBrains\PhpStorm\NoReturn;
-
 class Redirect {
 
     public static function to($page = 'login', $redirectPage = null)

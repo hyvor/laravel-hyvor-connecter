@@ -5,13 +5,6 @@ use Illuminate\Support\Facades\App;
 return [
 
     /**
-     * Application name
-     * Subdomain of the product
-     * talk|blogs|...
-     */
-    'app_name' => env('HYVOR_APP_NAME'),
-
-    /**
      * URL of hyvor
      * This should be the internal URL for production environments
      */
