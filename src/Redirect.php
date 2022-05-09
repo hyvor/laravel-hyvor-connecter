@@ -14,7 +14,7 @@ class Redirect {
         }
     
         $redirect = $placeholder . 'redirect=' . 
-            urlencode('https://' .  request()->getHost() . $redirectPage);
+            urlencode(request()->getSchemeAndHttpHost() . $redirectPage);
 
         return redirect(
             config('hyvorconnecter.url') .

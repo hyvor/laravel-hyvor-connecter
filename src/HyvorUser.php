@@ -13,10 +13,10 @@ class HyvorUser {
     public string $username;
     public string $name;
     public string $email;
-    public ?string $picture;
+    public ?string $picture_url;
     public ?string $location;
     public ?string $bio;
-    public ?string $url;
+    public ?string $website_url;
 
     /**
      * Convert API response to object
@@ -32,10 +32,10 @@ class HyvorUser {
         if ($email) {
             $this->email = $user['email'];
         }
-        $this->picture = $user['picture'] ?? null;
+        $this->picture_url = $user['picture_url'] ?? null;
         $this->location = $user['location'] ?? null;
         $this->bio = $user['bio'] ?? null;
-        $this->url = $user['url'] ?? null;
+        $this->website_url = $user['website_url'] ?? null;
 
     }
 

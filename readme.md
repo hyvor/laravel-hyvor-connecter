@@ -23,10 +23,10 @@ public int $id;
 public string $username;
 public string $name;
 public string $email;
-public ?string $picture;
+public ?string $picture_url;
 public ?string $location;
 public ?string $bio;
-public ?string $url;
+public ?string $website_url;
 ```
 
 

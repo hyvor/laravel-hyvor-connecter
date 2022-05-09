@@ -20,7 +20,7 @@ class Login
         }
 
         $response = ApiCaller::callEndpoint('/check', [], [
-            'Cookie' => self::AUTH_COOKIE_NAME . ":$cookie"
+            'Cookie' => self::AUTH_COOKIE_NAME . "=$cookie"
         ]);
 
         if ($response->successful()) {
@@ -28,7 +28,6 @@ class Login
         }
 
         return null;
-
     }
 
 }
