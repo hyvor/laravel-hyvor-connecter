@@ -22,7 +22,7 @@ class Userbase
         // return dummy
         if (config('hyvorconnecter.dummy'))
         {
-            collect($ids)->map(fn($id) => HyvorUser::dummy(['id' => $id]));
+            return collect($ids)->map(fn($id) => HyvorUser::dummy(['id' => $id]));
         }
 
         $response = ApiCaller::callEndpoint('/users/from/ids', [
@@ -31,9 +31,7 @@ class Userbase
 
         if ($response->successful()) {
             $users = collect($response->json());
-            $users->map(fn($user) => new HyvorUser($user, $email));
-
-            return $users;
+            return $users->map(fn($user) => new HyvorUser($user, $email));
         }
 
         return collect([]);
@@ -68,15 +66,13 @@ class Userbase
             collect($usernames)->map(fn($username) => HyvorUser::dummy(['username' => $username]));
         }
 
-        $response = ApiCaller::callEndpoint('/users/from/ids', [
+        $response = ApiCaller::callEndpoint('/users/from/usernames', [
             'usernames' => implode(',', $usernames)
         ]);
 
         if ($response->successful()) {
             $users = collect($response->json());
-            $users->map(fn($user) => new HyvorUser($user, $email));
-
-            return $users;
+            return $users->map(fn($user) => new HyvorUser($user, $email));
         }
 
         return collect([]);
@@ -113,7 +109,7 @@ class Userbase
             collect($emails)->map(fn($email) => HyvorUser::dummy(['email' => $email]));
         }
 
-        $response = ApiCaller::callEndpoint('/users/from/ids', [
+        $response = ApiCaller::callEndpoint('/users/from/emails', [
             'emails' => implode(',', $emails)
         ]);
 
