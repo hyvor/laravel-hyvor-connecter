@@ -9,9 +9,9 @@ class ApiCaller {
 
         $data['key'] = config('hyvorconnecter.api_key');
 
-        return Http::withHeaders($headers)->get(
+        return Http::withHeaders($headers)->post(
             url: config('hyvorconnecter.url') . '/api/auth' . $endpoint,
-            query: $data
+            data: $data
         );
 
     }
