@@ -49,7 +49,8 @@ class HyvorUser {
             'name' => $faker->name(),
             'email' => $faker->email(),
             'picture_url' => 'https://picsum.photos/100/100'
-        ], $fill));
+        ], $fill), true);
+
     }
 
 
