@@ -7,6 +7,14 @@ class Userbase
 {
 
     /**
+     * If $FAKE is set, dummy will be searched from this collection
+     * Results will only be returned if the search is matched
+     *
+     * @var Collection|null
+     */
+    public static ?Collection $FAKE = null;
+
+    /**
      * Get multiple users by ID
      *
      * $extra = location, bio, url
@@ -19,10 +27,8 @@ class Userbase
     public static function fromIds(array $ids, bool $email = false) : Collection
     {
 
-        // return dummy
-        if (config('hyvorconnecter.dummy'))
-        {
-            return collect($ids)->map(fn($id) => HyvorUser::dummy(['id' => $id]));
+        if (config('hyvorconnecter.dummy')) {
+            return self::returnDummyMulti('id', $ids);
         }
 
         $response = ApiCaller::callEndpoint('/users/from/ids', [
@@ -47,6 +53,10 @@ class Userbase
     public static function fromId(int $id, bool $email = false) : ?HyvorUser
     {
 
+        if (config('hyvorconnecter.dummy')) {
+            return self::returnDummySingle('id', $id);
+        }
+
         $users = self::fromIds([$id], $email);
 
         return $users->get($id);
@@ -60,10 +70,9 @@ class Userbase
      */
     public static function fromUsernames(array $usernames, bool $email = false) : Collection
     {
-        // return dummy
-        if (config('hyvorconnecter.dummy'))
-        {
-            collect($usernames)->map(fn($username) => HyvorUser::dummy(['username' => $username]));
+
+        if (config('hyvorconnecter.dummy')) {
+            return self::returnDummyMulti('username', $usernames);
         }
 
         $response = ApiCaller::callEndpoint('/users/from/usernames', [
@@ -90,6 +99,10 @@ class Userbase
     public static function fromUsername(string $username, bool $email = false) : ?HyvorUser
     {
 
+        if (config('hyvorconnecter.dummy')) {
+            return self::returnDummySingle('username', $username);
+        }
+
         $users = self::fromUsernames([$username], $email);
 
         return $users->get($username);
@@ -104,9 +117,8 @@ class Userbase
     {
 
         // return dummy
-        if (config('hyvorconnecter.dummy'))
-        {
-            collect($emails)->map(fn($email) => HyvorUser::dummy(['email' => $email]));
+        if (config('hyvorconnecter.dummy')) {
+            return self::returnDummyMulti('email', $emails);
         }
 
         $response = ApiCaller::callEndpoint('/users/from/emails', [
@@ -139,15 +151,48 @@ class Userbase
     public static function fromEmail(string $email) : ?HyvorUser
     {
 
-        if (config('hyvorconnecter.dummy'))
-        {
-            return HyvorUser::dummy(['email' => $email]);
+        if (config('hyvorconnecter.dummy')) {
+            return self::returnDummySingle('email', $email);
         }
 
         $users = self::fromEmails([$email]);
 
         return $users->get($email);
 
+    }
+
+    /**
+     * Returns
+     * @param string $type 'email' or 'username'
+     * @param string $value
+     * @return HyvorUser|null
+     */
+    public static function returnDummySingle(string $type, string|int $value) : ?HyvorUser
+    {
+        if (self::$FAKE) { //  If $FAKE is set, search from it
+            $fake = self::$FAKE->firstWhere($type, $value);
+            return $fake ? HyvorUser::dummy($fake) : null;
+        }
+        return HyvorUser::dummy([$type => $value]);
+    }
+
+    public static function returnDummyMulti(string $type, array $values) : Collection
+    {
+        if (self::$FAKE) {
+            $matches = self::$FAKE->whereIn($type, $values);
+            return $matches->map(fn($match) => HyvorUser::dummy($match));
+        }
+        return collect($values)->map(fn($value) => HyvorUser::dummy([$type => $value]));
+    }
+
+
+    /**
+     * Set fake data for userbase
+     *
+     */
+    public static function fake(array $users)
+    {
+        self::$FAKE = collect($users);
     }
 
 }
