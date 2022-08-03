@@ -17,7 +17,7 @@ class Redirect {
             urlencode(request()->getSchemeAndHttpHost() . $redirectPage);
 
         return redirect(
-            config('hyvorconnecter.url') .
+            config('hyvorconnecter.public_url') .
             '/' . 
             $page .
             $redirect

@@ -10,6 +10,10 @@ return [
      */
     'url' => env('HYVOR_URL'),
 
+    /**
+     * Public URL to use (mainly for redirections)
+     */
+    'public_url' => env('HYVOR_URL_PUBLIC', env('HYVOR_URL')),
 
     /**
      * Hyvor API Key
