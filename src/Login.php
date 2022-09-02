@@ -24,7 +24,7 @@ class Login
         ]);
 
         if ($response->successful()) {
-            return new HyvorUser($response->json());
+            return new HyvorUser($response->json(), true);
         }
 
         return null;

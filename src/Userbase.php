@@ -127,7 +127,7 @@ class Userbase
 
         if ($response->successful()) {
             $users = collect($response->json());
-            $users->map(fn($user) => new HyvorUser(
+            return $users->map(fn($user) => new HyvorUser(
                 $user,
                 /**
                  * Emails were already sent, so no matter of having them again
@@ -135,7 +135,6 @@ class Userbase
                  */
                 true)
             );
-            return $users;
         }
 
         return collect([]);
