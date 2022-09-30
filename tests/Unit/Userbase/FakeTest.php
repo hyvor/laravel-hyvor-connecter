@@ -46,6 +46,7 @@ it('searches by ids', function() {
 
     expect(count($users))->toBe(2);
     expect($users)->each->toBeInstanceOf(HyvorUser::class);
+    expect($users[2])->toBeInstanceOf(HyvorUser::class);
 
 });
 
@@ -89,6 +90,7 @@ it('searches by usernames', function() {
 
     expect(count($users))->toBe(2);
     expect($users)->each->toBeInstanceOf(HyvorUser::class);
+    expect($users['Supun'])->toBeInstanceOf(HyvorUser::class);
 
 });
 
@@ -132,5 +134,6 @@ it('searches by emails', function() {
 
     expect(count($users))->toBe(2);
     expect($users)->each->toBeInstanceOf(HyvorUser::class);
+    expect($users['supun@hyvor.com'])->toBeInstanceOf(HyvorUser::class);
 
 });

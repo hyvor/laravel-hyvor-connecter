@@ -163,7 +163,7 @@ class Userbase
     /**
      * Returns
      * @param string $type 'email' or 'username'
-     * @param string $value
+     * @param string|int $value
      * @return HyvorUser|null
      */
     public static function returnDummySingle(string $type, string|int $value) : ?HyvorUser
@@ -179,9 +179,13 @@ class Userbase
     {
         if (self::$FAKE) {
             $matches = self::$FAKE->whereIn($type, $values);
-            return $matches->map(fn($match) => HyvorUser::dummy($match));
+            return $matches
+                ->map(fn($match) => HyvorUser::dummy($match))
+                ->keyBy($type);
         }
-        return collect($values)->map(fn($value) => HyvorUser::dummy([$type => $value]));
+        return collect($values)
+            ->map(fn($value) => HyvorUser::dummy([$type => $value]))
+            ->keyBy($type);
     }
 
 
