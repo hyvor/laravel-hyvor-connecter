@@ -10,6 +10,11 @@ class Login
     {
 
         if (config('hyvorconnecter.dummy')) {
+
+            if (config('hyvorconnecter.dummy_user_id') === null) {
+                return null;
+            }
+
             return HyvorUser::dummy();
         }
 
