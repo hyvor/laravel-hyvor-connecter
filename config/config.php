@@ -23,6 +23,12 @@ return [
     /**
      * Whether to return dummy results
      */
-    'dummy' => App::environment('production') ? false : env('HYVOR_DUMMY', true)
+    'dummy' => App::environment('production') ? false : env('HYVOR_DUMMY', true),
+
+
+    /**
+     * Dummy user ID
+     */
+    'dummy_user_id' => env('HYVOR_DUMMY_USER_ID', 1),
 
 ];

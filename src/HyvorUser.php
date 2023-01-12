@@ -44,7 +44,7 @@ class HyvorUser {
 
         $faker = Factory::create();
         return new self(array_merge([
-            'id' => 1,
+            'id' => config('hyvorconnecter.dummy_user_id'),
             'username' => $faker->username(),
             'name' => $faker->name(),
             'email' => $faker->email(),
